@@ -29,12 +29,13 @@ export class VoiceGeteway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('audio')
   handleAudio(@MessageBody() {audioData, room}: {audioData: ArrayBuffer, room: string}, @ConnectedSocket() client: Socket) {
+    client.broadcast.to(room).emit('audio', audioData);
 
-    if (audioData instanceof Buffer) {
-       client.broadcast.to(room).emit('audio', audioData);
-    } else {
-      console.error('Data is not a Buffer:', audioData);
-    }
+    // if (audioData instanceof Buffer) {
+    //    client.broadcast.to(room).emit('audio', audioData);
+    // } else {
+    //   console.error('Data is not a Buffer:', audioData);
+    // }
   }
 
 }
